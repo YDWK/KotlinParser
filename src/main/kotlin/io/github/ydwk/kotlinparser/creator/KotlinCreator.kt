@@ -18,4 +18,22 @@
  */ 
 package io.github.ydwk.kotlinparser.creator
 
-interface KotlinCreator {}
+import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
+
+interface KotlinCreator {
+
+    /**
+     * Adds import to the kotlin file.
+     *
+     * @param import The import to add
+     * @return The current [KotlinCreator] instance
+     */
+    fun addImport(import: String): KotlinCreator
+
+    /**
+     * Creates the kotlin file.
+     *
+     * @return Prints the kotlin file to the specified output
+     */
+    fun create(): KotlinModifier
+}

@@ -19,5 +19,19 @@
 package io.github.ydwk.kotlinparser.impl.creator
 
 import io.github.ydwk.kotlinparser.creator.KotlinCreator
+import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
 
-class KotlinCreatorImpl(val packageName: String) : KotlinCreator {}
+class KotlinCreatorImpl(val packageName: String) : KotlinCreator {
+    private val imports = mutableSetOf<String>()
+    private val classes = mutableListOf<String>()
+    private val functions = mutableListOf<String>()
+
+    override fun addImport(import: String): KotlinCreator {
+        imports.add(import)
+        return this
+    }
+
+    override fun create(): KotlinModifier {
+        TODO("Not yet implemented")
+    }
+}
