@@ -19,19 +19,48 @@
 package io.github.ydwk.kotlinparser.impl.creator
 
 import io.github.ydwk.kotlinparser.creator.KotlinCreator
+import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinType
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
 
-class KotlinCreatorImpl(val packageName: String) : KotlinCreator {
+class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
     private val imports = mutableSetOf<String>()
-    private val classes = mutableListOf<String>()
-    private val functions = mutableListOf<String>()
+    private val functions = mutableListOf<FunctionCreator>()
+    private var type: KotlinType = KotlinType.CLASS
+    private var name: String = ""
 
     override fun addImport(import: String): KotlinCreator {
         imports.add(import)
         return this
     }
 
+    override fun type(type: KotlinType): KotlinCreator {
+        this.type = type
+        return this
+    }
+
+    override fun name(name: String): KotlinCreator {
+        this.name = name
+        return this
+    }
+
+    override fun addFunction(function: FunctionCreator): KotlinCreator {
+        functions.add(function)
+        return this
+    }
+
     override fun create(): KotlinModifier {
-        TODO("Not yet implemented")
+        val builder = StringBuilder()
+        builder.append("package $packageName")
+        builder.append("\r")
+
+        imports.forEach { k -> builder.append("import $k") }
+
+        builder.append("\r")
+
+        builder.append("$type $name {")
+        builder.append("\r")
+
+        return TODO("Not yet implemented")
     }
 }
