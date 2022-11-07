@@ -1,47 +1,77 @@
+import java.net.URL
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+buildscript {
+    repositories { mavenCentral() }
+
+    dependencies { classpath("org.jetbrains.dokka:dokka-base:1.7.20") }
+}
 
 plugins {
     kotlin("jvm") version "1.7.20"
-    application
+    kotlin("plugin.allopen") version "1.7.20"
     id("com.diffplug.spotless") version "6.11.0"
+    id("org.jetbrains.dokka") version "1.7.20"
     `maven-publish`
     signing
+    jacoco // code coverage reports
 }
 
-//TODO : update
 extra.apply {
-    set("name", "YDWK")
-    set("description", "YDWK (Yusuf's Discord Wrapper Kotlin) My own Discord Wrapper in Kotlin")
+    set("name", "KotlinParser")
+    set("description", "Used to parse Kotlin code")
     set("group", "io.github.realyusufismail")
-    set("version", "0.0.4")
+    set("version", "0.0.1-SNAPSHOT")
     set("dev_id", "yusuf")
     set("dev_name", "Yusuf Ismail")
     set("dev_email", "yusufgamer222@gmail.com")
     set("dev_organization", "YDWK")
     set("dev_organization_url", "https://github.com/YDWK")
     set("gpl_name", "Apache-2.0 license")
-    set("gpl_url", "https://github.com/YDWK/YDWK/blob/master/LICENSE")
+    set("gpl_url", "https://github.com/YDWK/KotlinParser/blob/master/LICENSE")
 }
 
-group = "io.github.ydwk.kotlinparser"
-version = "1.0-SNAPSHOT"
+group = "io.github.realyusufismail" // used for publishing. DON'T CHANGE
+
+version = "0.0.1-SNAPSHOT"
+
 val releaseVersion by extra(!version.toString().endsWith("-SNAPSHOT"))
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
+
+    // logger
+    api("ch.qos.logback:logback-classic:1.4.4")
+    api("ch.qos.logback:logback-core:1.4.4")
+    api("uk.org.lidalia:sysout-over-slf4j:1.0.2")
+
+    // tests
     testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.20")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+tasks.jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+    finalizedBy("jacocoTestCoverageVerification")
 }
+
+configurations { all { exclude(group = "org.slf4j", module = "slf4j-log4j12") } }
+
+tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
 
 spotless {
     kotlin {
@@ -79,11 +109,19 @@ spotless {
     }
 }
 
-application {
-    mainClass.set("MainKt")
+java {
+    withJavadocJar()
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
+}
 
 publishing {
     val isReleaseVersion = !version.toString().endsWith("SNAPSHOT")
@@ -94,10 +132,10 @@ publishing {
             pom {
                 name.set(extra["name"] as String)
                 description.set(extra["description"] as String)
-                url.set("https://www.ydwk.org")
+                url.set("https://www.ydwk.org/KotlinParser")
                 issueManagement {
                     system.set("GitHub")
-                    url.set("https://github.com/YDWK/YDWK/issues")
+                    url.set("https://github.com/YDWK/KotlinParser/issues")
                 }
                 licenses {
                     license {
@@ -117,9 +155,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("https://github.com/YDWK/YDWK.git")
-                    developerConnection.set("scm:git:ssh://git@github.com/YDWK/YDWK.git")
-                    url.set("github.com/YDWK/YDWK")
+                    connection.set("https://github.com/YDWK/KotlinParser.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/YDWK/KotlinParser.git")
+                    url.set("github.com/YDWK/KotlinParser")
                 }
             }
         }
@@ -176,9 +214,26 @@ signing {
         // println "sign: " + isReleaseVersion
         val isRequired =
             releaseVersion &&
-                    (tasks.withType<PublishToMavenRepository>().find { gradle.taskGraph.hasTask(it) } !=
-                            null)
+                (tasks.withType<PublishToMavenRepository>().find { gradle.taskGraph.hasTask(it) } !=
+                    null)
         setRequired(isRequired)
         sign(publishing.publications["kotlinParser"])
+    }
+}
+
+tasks.getByName("dokkaHtml", DokkaTask::class) {
+    dokkaSourceSets.configureEach {
+        includes.from("Package.md")
+        jdkVersion.set(17)
+        sourceLink {
+            localDirectory.set(file("src/main/kotlin"))
+            remoteUrl.set(
+                URL("https://github.com/RealYusufIsmail/YDWK/tree/master/src/main/kotlin"))
+            remoteLineSuffix.set("#L")
+        }
+
+        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+            footerMessage = "Copyright © 2022 Yusuf Arfan Ismail and other YDWK contributors."
+        }
     }
 }

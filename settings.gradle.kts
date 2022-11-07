@@ -1,3 +1,1 @@
-
-rootProject.name = "KotlinParser"
-
+rootProject.name = "kotlinparser"

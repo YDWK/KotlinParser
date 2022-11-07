@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
-package io.github.ydwk.kotlinparser.creator
+package io.github.ydwk.kotlinparser.impl.creator
 
-interface KotlinCreator {}
+import io.github.ydwk.kotlinparser.creator.KotlinCreator
+
+class KotlinCreatorImpl(val packageName: String) : KotlinCreator {}

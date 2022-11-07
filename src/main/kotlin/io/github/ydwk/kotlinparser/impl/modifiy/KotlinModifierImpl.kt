@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
-package io.github.ydwk.kotlinparser.creator
+package io.github.ydwk.kotlinparser.impl.modifiy
 
-interface KotlinCreator {}
+import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
+
+class KotlinModifierImpl : KotlinModifier {}
