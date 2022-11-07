@@ -36,9 +36,9 @@ extra.apply {
 
 group = "io.github.realyusufismail" // used for publishing. DON'T CHANGE
 
-version = "0.0.1-SNAPSHOT"
-
 val releaseVersion by extra(!version.toString().endsWith("-SNAPSHOT"))
+
+apply(from = "gradle/tasks/incrementVersion.gradle.kts")
 
 repositories { mavenCentral() }
 
