@@ -20,6 +20,7 @@ package io.github.ydwk.kotlinparser.impl.creator
 
 import io.github.ydwk.kotlinparser.creator.KotlinCreator
 import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinType
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
 
@@ -50,17 +51,6 @@ class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
     }
 
     override fun create(): KotlinModifier {
-        val builder = StringBuilder()
-        builder.append("package $packageName")
-        builder.append("\r")
-
-        imports.forEach { k -> builder.append("import $k") }
-
-        builder.append("\r")
-
-        builder.append("$type $name {")
-        builder.append("\r")
-
-        return TODO("Not yet implemented")
+        return KotlinClassCreator(packageName, imports, type, name, functions)
     }
 }
