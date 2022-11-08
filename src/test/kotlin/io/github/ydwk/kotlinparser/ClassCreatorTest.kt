@@ -19,10 +19,9 @@
 package io.github.ydwk.kotlinparser
 
 import io.github.ydwk.kotlinparser.creator.sub.KotlinType
-import java.util.Objects
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class ClassCreatorTest {
 
@@ -37,13 +36,13 @@ class ClassCreatorTest {
                 .create()
                 .print()
 
-        val required =
+        assertEquals(
             """
-            package io.github.ydwk.kotlinparser
-            class Sample {
-            }
-        """.trimIndent()
+                package io.github.ydwk.kotlinparser
 
-        assertEquals(required, classCreator)
+                class Sample {}
+                
+            """.trimIndent(),
+            classCreator.toString())
     }
 }

@@ -38,7 +38,7 @@ interface KotlinCreator {
      * @param type The type of the class
      * @return The current [KotlinCreator] instance
      */
-    fun type(type: KotlinType): KotlinCreator
+    fun setType(type: KotlinType): KotlinCreator
 
     /**
      * Sets the class name.
@@ -46,7 +46,7 @@ interface KotlinCreator {
      * @param name The name of the class
      * @return The current [KotlinCreator] instance
      */
-    fun name(name: String): KotlinCreator
+    fun setName(name: String): KotlinCreator
 
     /**
      * Adds function to the kotlin file.
@@ -55,6 +55,13 @@ interface KotlinCreator {
      * @return The current [KotlinCreator] instance
      */
     fun addFunction(function: FunctionCreator): KotlinCreator
+
+    /**
+     * Sets the directory of the kotlin file.
+     *
+     * @param directory The directory of the kotlin file
+     */
+    fun setDirectory(directory: String): KotlinCreator
 
     /**
      * Creates the kotlin file.

@@ -30,7 +30,8 @@ class KotlinClassCreatorImpl(
     private val imports: Set<String>,
     private val type: KotlinType,
     private val name: String,
-    private val functions: List<FunctionCreator>
+    private val functions: List<FunctionCreator>,
+    private val directory: String
 ) : KotlinClassCreator {
     override val modifiy: KotlinModifier
         get() = KotlinModifierImpl(classAsFile())
@@ -53,15 +54,24 @@ class KotlinClassCreatorImpl(
             KotlinType.ANNOTATION -> builder.append("annotation class $name")
         }
 
-        builder.appendLine(" {")
+        if (functions.isNotEmpty()) {
+            builder.appendLine(" {")
+            functions.forEach { builder.append(it.print()) }
+            builder.appendLine("}")
+        } else {
+            builder.appendLine(" {" + "}")
+        }
 
-        functions.forEach { builder.append(it.print()) }
-
-        builder.appendLine("}")
-
-        val file = File("src/main/kotlin/$packageName")
-        file.createNewFile()
-        file.writeText(builder.toString())
+        if (directory != "") {
+            val file = File("$directory/$name.kt")
+            if (!file.exists()) {
+                file.createNewFile()
+            } else {
+                file.delete()
+                file.createNewFile()
+            }
+            file.writeText(builder.toString())
+        }
 
         return builder
     }

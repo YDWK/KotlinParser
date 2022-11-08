@@ -29,18 +29,19 @@ class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
     private val functions = mutableListOf<FunctionCreator>()
     private var type: KotlinType = KotlinType.CLASS
     private var name: String = ""
+    private var directory: String = ""
 
     override fun addImport(import: String): KotlinCreator {
         imports.add(import)
         return this
     }
 
-    override fun type(type: KotlinType): KotlinCreator {
+    override fun setType(type: KotlinType): KotlinCreator {
         this.type = type
         return this
     }
 
-    override fun name(name: String): KotlinCreator {
+    override fun setName(name: String): KotlinCreator {
         this.name = name
         return this
     }
@@ -50,7 +51,12 @@ class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
         return this
     }
 
+    override fun setDirectory(directory: String): KotlinCreator {
+        this.directory = directory
+        return this
+    }
+
     override fun create(): KotlinClassCreator {
-        return KotlinClassCreatorImpl(packageName, imports, type, name, functions)
+        return KotlinClassCreatorImpl(packageName, imports, type, name, functions, directory)
     }
 }
