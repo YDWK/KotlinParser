@@ -22,7 +22,7 @@ import io.github.ydwk.kotlinparser.creator.KotlinCreator
 import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinType
-import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
+import io.github.ydwk.kotlinparser.impl.creator.sub.KotlinClassCreatorImpl
 
 class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
     private val imports = mutableSetOf<String>()
@@ -50,7 +50,7 @@ class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
         return this
     }
 
-    override fun create(): KotlinModifier {
-        return KotlinClassCreator(packageName, imports, type, name, functions)
+    override fun create(): KotlinClassCreator {
+        return KotlinClassCreatorImpl(packageName, imports, type, name, functions)
     }
 }

@@ -37,4 +37,18 @@ class FunctionCreator {
         parameters.plus(Pair(name, type))
         return this
     }
+
+    fun print(): StringBuilder {
+        val builder = StringBuilder()
+        builder.append("fun ")
+        builder.append("(")
+        parameters.forEach {
+            builder.append(it.first)
+            builder.append(": ")
+            builder.append(it.second)
+            builder.append(", ")
+        }
+        builder.append(")")
+        return builder
+    }
 }

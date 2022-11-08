@@ -19,6 +19,7 @@
 package io.github.ydwk.kotlinparser.creator
 
 import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinType
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
 
@@ -61,5 +62,5 @@ interface KotlinCreator {
      *
      * @return Prints the kotlin file to the specified output
      */
-    fun create(): KotlinModifier
+    fun create(): KotlinClassCreator
 }
