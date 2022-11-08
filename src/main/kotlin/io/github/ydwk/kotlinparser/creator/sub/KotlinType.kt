@@ -18,20 +18,10 @@
  */ 
 package io.github.ydwk.kotlinparser.creator.sub
 
-enum class KotlinType(val type: String) {
-    CLASS("class"),
-    INTERFACE("interface"),
-    OBJECT("object"),
-    ENUM("enum class"),
-    ANNOTATION("annotation class");
-
-    override fun toString(): String {
-        return type
-    }
-
-    companion object {
-        fun fromString(type: String): KotlinType {
-            return values().first { it.type == type }
-        }
-    }
+enum class KotlinType() {
+    CLASS,
+    INTERFACE,
+    OBJECT,
+    ENUM,
+    ANNOTATION
 }

@@ -21,7 +21,6 @@ package io.github.ydwk.kotlinparser.creator
 import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
 import io.github.ydwk.kotlinparser.creator.sub.KotlinType
-import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
 
 interface KotlinCreator {
 

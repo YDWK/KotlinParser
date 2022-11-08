@@ -40,21 +40,34 @@ class KotlinClassCreatorImpl(
         builder.appendLine("package $packageName")
         builder.appendLine()
 
-        imports.forEach {
-            builder.appendLine("import $it")
+        if (imports.isNotEmpty()) {
+            imports.forEach { builder.appendLine("import $it") }
+            builder.appendLine()
         }
 
-        builder.appendLine()
-        builder.appendLine("class $name {")
-        functions.forEach {
-            builder.appendLine(it.print())
+        when (type) {
+            KotlinType.CLASS -> builder.append("class $name")
+            KotlinType.OBJECT -> builder.append("object $name")
+            KotlinType.INTERFACE -> builder.append("interface $name")
+            KotlinType.ENUM -> builder.append("enum class $name")
+            KotlinType.ANNOTATION -> builder.append("annotation class $name")
         }
+
+        builder.appendLine(" {")
+
+        functions.forEach { builder.append(it.print()) }
+
         builder.appendLine("}")
+
+        val file = File("src/main/kotlin/$packageName")
+        file.createNewFile()
+        file.writeText(builder.toString())
+
         return builder
     }
 
-    private fun classAsFile() : File {
-        val file = File("$packageName/$name.kt")
+    private fun classAsFile(): File {
+        val file = File("src/main/kotlin/$packageName")
         file.createNewFile()
         file.writeText(print().toString())
         return file

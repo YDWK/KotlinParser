@@ -22,13 +22,14 @@ import io.github.ydwk.kotlinparser.creator.KotlinCreator
 import io.github.ydwk.kotlinparser.impl.creator.KotlinCreatorImpl
 import io.github.ydwk.kotlinparser.impl.modifiy.KotlinModifierImpl
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
+import java.io.File
 
 class KotlinParser : IKotlinParser {
     override fun createKotlin(packageName: String): KotlinCreator {
         return KotlinCreatorImpl(packageName)
     }
 
-    override fun modifyKotlin(): KotlinModifier {
-        return KotlinModifierImpl()
+    override fun modifyKotlin(classAsFile: File): KotlinModifier {
+        return KotlinModifierImpl(classAsFile)
     }
 }
