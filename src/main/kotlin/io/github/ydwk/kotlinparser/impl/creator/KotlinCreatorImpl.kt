@@ -19,5 +19,44 @@
 package io.github.ydwk.kotlinparser.impl.creator
 
 import io.github.ydwk.kotlinparser.creator.KotlinCreator
+import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinType
+import io.github.ydwk.kotlinparser.impl.creator.sub.KotlinClassCreatorImpl
 
-class KotlinCreatorImpl(val packageName: String) : KotlinCreator {}
+class KotlinCreatorImpl(private val packageName: String) : KotlinCreator {
+    private val imports = mutableSetOf<String>()
+    private val functions = mutableListOf<FunctionCreator>()
+    private var type: KotlinType = KotlinType.CLASS
+    private var name: String = ""
+    private var directory: String = ""
+
+    override fun addImport(import: String): KotlinCreator {
+        imports.add(import)
+        return this
+    }
+
+    override fun setType(type: KotlinType): KotlinCreator {
+        this.type = type
+        return this
+    }
+
+    override fun setName(name: String): KotlinCreator {
+        this.name = name
+        return this
+    }
+
+    override fun addFunction(function: FunctionCreator): KotlinCreator {
+        functions.add(function)
+        return this
+    }
+
+    override fun setDirectory(directory: String): KotlinCreator {
+        this.directory = directory
+        return this
+    }
+
+    override fun create(): KotlinClassCreator {
+        return KotlinClassCreatorImpl(packageName, imports, type, name, functions, directory)
+    }
+}

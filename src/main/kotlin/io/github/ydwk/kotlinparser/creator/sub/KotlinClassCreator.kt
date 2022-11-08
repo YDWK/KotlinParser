@@ -16,15 +16,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
-package io.github.ydwk.kotlinparser
+package io.github.ydwk.kotlinparser.creator.sub
 
-import io.github.ydwk.kotlinparser.creator.KotlinCreator
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
-import java.io.File
 
-interface IKotlinParser {
+interface KotlinClassCreator {
 
-    fun createKotlin(packageName: String): KotlinCreator
+    /**
+     * Edit the new class.
+     *
+     * @return The current [KotlinClassCreator] instance
+     */
+    val modifiy: KotlinModifier
 
-    fun modifyKotlin(classAsFile: File): KotlinModifier
+    /**
+     * Creates the kotlin class.
+     *
+     * @return The kotlin class
+     */
+    fun print(): StringBuilder
 }

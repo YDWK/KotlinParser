@@ -18,13 +18,4 @@
  */ 
 package io.github.ydwk.kotlinparser
 
-import io.github.ydwk.kotlinparser.creator.KotlinCreator
-import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
-import java.io.File
-
-interface IKotlinParser {
-
-    fun createKotlin(packageName: String): KotlinCreator
-
-    fun modifyKotlin(classAsFile: File): KotlinModifier
-}
+class Sample {}

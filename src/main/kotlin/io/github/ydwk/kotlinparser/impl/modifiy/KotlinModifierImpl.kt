@@ -19,5 +19,6 @@
 package io.github.ydwk.kotlinparser.impl.modifiy
 
 import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
+import java.io.File
 
-class KotlinModifierImpl : KotlinModifier {}
+class KotlinModifierImpl(classAsFile: File) : KotlinModifier {}

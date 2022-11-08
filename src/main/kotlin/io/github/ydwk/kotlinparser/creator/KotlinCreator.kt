@@ -18,4 +18,55 @@
  */ 
 package io.github.ydwk.kotlinparser.creator
 
-interface KotlinCreator {}
+import io.github.ydwk.kotlinparser.creator.sub.FunctionCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinClassCreator
+import io.github.ydwk.kotlinparser.creator.sub.KotlinType
+
+interface KotlinCreator {
+
+    /**
+     * Adds import to the kotlin file.
+     *
+     * @param import The import to add
+     * @return The current [KotlinCreator] instance
+     */
+    fun addImport(import: String): KotlinCreator
+
+    /**
+     * Set the type of the class.
+     *
+     * @param type The type of the class
+     * @return The current [KotlinCreator] instance
+     */
+    fun setType(type: KotlinType): KotlinCreator
+
+    /**
+     * Sets the class name.
+     *
+     * @param name The name of the class
+     * @return The current [KotlinCreator] instance
+     */
+    fun setName(name: String): KotlinCreator
+
+    /**
+     * Adds function to the kotlin file.
+     *
+     * @param function The function to add
+     * @return The current [KotlinCreator] instance
+     */
+    fun addFunction(function: FunctionCreator): KotlinCreator
+
+    /**
+     * Sets the directory of the kotlin file.
+     *
+     * @param directory The directory of the kotlin file
+     */
+    fun setDirectory(directory: String): KotlinCreator
+
+    /**
+     * Creates the kotlin file.
+     *
+     * @return Prints the kotlin file to the specified output
+     */
+    fun create(): KotlinClassCreator
+}

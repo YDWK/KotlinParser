@@ -16,15 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
-package io.github.ydwk.kotlinparser
+package io.github.ydwk.kotlinparser.creator.sub
 
-import io.github.ydwk.kotlinparser.creator.KotlinCreator
-import io.github.ydwk.kotlinparser.modifiy.KotlinModifier
-import java.io.File
-
-interface IKotlinParser {
-
-    fun createKotlin(packageName: String): KotlinCreator
-
-    fun modifyKotlin(classAsFile: File): KotlinModifier
+enum class KotlinType() {
+    CLASS,
+    INTERFACE,
+    OBJECT,
+    ENUM,
+    ANNOTATION
 }
