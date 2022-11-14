@@ -51,7 +51,7 @@ dependencies {
 
     // tests
     testImplementation(kotlin("test"))
-    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.20")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.7.21")
 }
 
 tasks.test {
